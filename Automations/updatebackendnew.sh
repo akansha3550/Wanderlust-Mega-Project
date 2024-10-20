@@ -1,10 +1,11 @@
 #!/bin/bash
 
-# Set the Instance ID and path to the .env file
-INSTANCE_ID="i-030da7d31a1dbbffc"
+# Set the VM name and resource group (replace with your VM details)
+VM_NAME="jenkins-server"
+RESOURCE_GROUP="myrg"
 
-# Retrieve the public IP address of the specified EC2 instance
-ipv4_address=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+# Retrieve the public IP address of the specified Azure VM
+ipv4_address=$(az vm list-ip-addresses --name $VM_NAME --resource-group $RESOURCE_GROUP --query '[0].virtualMachine.network.publicIpAddresses[0].ipAddress' --output tsv)
 
 # Path to the .env file
 file_to_find="../backend/.env.docker"
